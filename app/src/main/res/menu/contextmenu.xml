@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Edit"
+        android:id="@+id/menu_context_edit"/>
+    <item android:title="Delete"
+        android:id="@+id/menu_context_delete"/>
+    <item android:title="Call"
+        android:id="@+id/menu_context_call"/>
+    <item android:title="Sms"
+        android:id="@+id/menu_context_sms"/>
+
+</menu>
