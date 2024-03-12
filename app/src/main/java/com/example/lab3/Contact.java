@@ -15,6 +15,14 @@ public class Contact {
         this.uriImage = "/storage/emulated/0/Download/pexels-ánh-đặng-20454066.jpg";
     }
 
+    public Contact(int id, String fullname, String phone, String uriImage) {
+        this.id = id;
+        this.fullname = fullname;
+        this.phone = phone;
+        this.status = false;
+        this.uriImage = uriImage;
+    }
+
     public Contact(int id, String fullname, String phone, boolean status, String uriImage) {
         this.id = id;
         this.fullname = fullname;

@@ -57,6 +57,8 @@ public class ContactAdapter extends BaseAdapter {
         name.setText(cur.getFullname());
         phone.setText(cur.getPhone());
         imageUri.setText(cur.getUriImage());
+        imageView.setImageURI(Uri.parse(cur.getUriImage()));
+        System.out.println(cur.getUriImage());
         status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +66,6 @@ public class ContactAdapter extends BaseAdapter {
             }
         });
         //set image
-        imageView.setImageURI(Uri.parse(cur.getUriImage()));
         return v;
     }
 }
