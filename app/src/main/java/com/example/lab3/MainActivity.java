@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
     protected void initData(){
         contacts.add(new Contact(1,"Chien Tran","093738943",false));
-        contacts.add(new Contact(2,"Vi Than","093738943",false));
+        contacts.add(new Contact(2,"Vi Than","033738941",false));
         adapter.notifyDataSetChanged();
     }
     protected void init(){
