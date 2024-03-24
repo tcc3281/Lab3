@@ -31,18 +31,20 @@ public class MainActivity extends AppCompatActivity {
     protected ArrayList<Contact> contacts;
     protected ContactAdapter adapter;
     protected int selectedIndex;
+    protected ContactDB db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        initData();
+//        initData();
         setBtnAdd();
         setBtnDelete();
     }
     protected void initData(){
-        contacts.add(new Contact(1,"Chien Tran","093738943",false));
-        contacts.add(new Contact(2,"Vi Than","033738941",false));
+        db.addContact(new Contact(1,"Chien Tran","093738943",false));
+        db.addContact(new Contact(2,"Vi Than","033738941",false));
+        contacts=db.getAllContacts();
         adapter.notifyDataSetChanged();
     }
     protected void init(){
@@ -50,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         listView=findViewById(R.id.main_listview);
         btnAdd=findViewById(R.id.main_btn_add);
         btnDelete=findViewById(R.id.main_btn_delete);
-        contacts=new ArrayList<>();
+        db=new ContactDB(this,"ContactDB",null,1);
+        contacts=db.getAllContacts();
         //set adapter
         adapter = new ContactAdapter(contacts,this);
         listView.setAdapter(adapter);
@@ -86,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 while(!st.empty()){
-                    contacts.remove(st.pop());
+                    Contact temp=st.pop();
+                    db.deleteContact(temp);
+                    contacts.remove(temp);
                 }
                 adapter.notifyDataSetChanged();
                 Toast.makeText(MainActivity.this, "Đã xóa", Toast.LENGTH_SHORT).show();
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==126 && resultCode==118){
+        if(requestCode==126 && resultCode==118){//them
             Bundle bundle=data.getExtras();
             int id = bundle.getInt("id");
             String name = bundle.getString("name");
@@ -104,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             String uriImage = bundle.getString("image");
 
             Contact newContact = new Contact(id,name,phone,false,uriImage);
+            db.addContact(newContact);
             contacts.add(newContact);
             adapter.notifyDataSetChanged();
         }
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             String uriImage = bundle.getString("image");
 
             Contact newContact = new Contact(id,name,phone,false,uriImage);
+            db.editContact(newContact, newContact.getId());
             contacts.set(selectedIndex,newContact);
             adapter.notifyDataSetChanged();//error
         }
@@ -138,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtras(bundle);
             startActivityForResult(intent,103);
         } else if(item.getItemId()==R.id.menu_context_delete){
+            db.deleteContact(contacts.get(selectedIndex));
             contacts.remove(selectedIndex);
             adapter.notifyDataSetChanged();
             Toast.makeText(this, "Đã xóa", Toast.LENGTH_SHORT).show();
